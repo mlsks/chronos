@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Interactive Historical Timeline | Chronologie Historique Interactive
+    </title>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <!-- Language Selection Overlay -->
+    <div id="language-selection-overlay">
+      <div class="language-selection-container">
+        <h1>Choose Your Language | Choisissez Votre Langue</h1>
+        <div class="language-options">
+          <div class="language-option" data-language="en">
+            <div class="flag-container">
+              <div class="flag flag-en"></div>
+            </div>
+            <span>English</span>
+          </div>
+          <div class="language-option" data-language="fr">
+            <div class="flag-container">
+              <div class="flag flag-fr"></div>
+            </div>
+            <span>Français</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main App Content (initially hidden) -->
+    <div id="app-content" style="display: none;">
+      <header>
+        <h1 id="main-title">Interactive Historical Timeline</h1>
+        <div class="controls">
+          <div class="top-controls">
+            <button
+              id="reset-view"
+              data-en="Reset View"
+              data-fr="Réinitialiser la Vue"
+            >
+              Reset View
+            </button>
+          </div>
+          <div class="bottom-controls">
+            <select id="era-selector">
+              <option value="all" data-en="All Eras" data-fr="Toutes les Époques">
+                All Eras
+              </option>
+              <option
+                value="ancient"
+                data-en="Ancient History"
+                data-fr="Histoire Ancienne"
+              >
+                Ancient History
+              </option>
+              <option
+                value="medieval"
+                data-en="Medieval Period"
+                data-fr="Période Médiévale"
+              >
+                Medieval Period
+              </option>
+              <option
+                value="renaissance"
+                data-en="Renaissance"
+                data-fr="Renaissance"
+              >
+                Renaissance
+              </option>
+              <option
+                value="industrial"
+                data-en="Industrial Revolution"
+                data-fr="Révolution Industrielle"
+              >
+                Industrial Revolution
+              </option>
+              <option value="modern" data-en="Modern Era" data-fr="Ère Moderne">
+                Modern Era
+              </option>
+              <option
+                value="contemporary"
+                data-en="Contemporary History"
+                data-fr="Histoire Contemporaine"
+              >
+                Contemporary History
+              </option>
+            </select>
+            <div class="search-container">
+              <input
+                type="text"
+                id="search-events"
+                placeholder="Search events..."
+              />
+              <button id="search-button" data-en="Search" data-fr="Rechercher">
+                Search
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+    <main>
+      <div class="timeline-container">
+        <canvas id="timeline-canvas"></canvas>
+        <div id="timeline-overlay"></div>
+      </div>
+
+      <div class="info-panel">
+        <div id="event-details">
+          <h2 id="select-event-title">Select an event to learn more</h2>
+          <p class="instruction" id="click-instruction">
+            Click on any node in the timeline to view details about that
+            historical event.
+          </p>
+        </div>
+        <div id="alternative-history">
+          <h3 id="what-if-title">What If?</h3>
+          <p class="instruction" id="explore-instruction">
+            Explore how history might have unfolded differently.
+          </p>
+          <button
+            id="simulate-alt"
+            disabled
+            data-en="Simulate Alternative Path"
+            data-fr="Simuler un Chemin Alternatif"
+          >
+            Simulate Alternative Path
+          </button>
+        </div>
+      </div>
+    </main>
+
+    <div id="event-modal" class="modal">
+      <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <div id="modal-content"></div>
+      </div>
+    </div>
+
+    <footer>
+      <p>
+        Interactive Historical Timeline | Chronologie Historique Interactive
+        &copy; 2023-2025
+      </p>
+    </footer>
+    </div> <!-- End of app-content -->
+
+    <script src="js/language-selector.js"></script>
+    <script src="js/language.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/timeline.js"></script>
+    <script src="js/interactions.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>
