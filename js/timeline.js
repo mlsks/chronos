@@ -265,6 +265,14 @@ class TimelineVisualization {
   }
 
   drawLabels() {
+    // Get current language from localStorage or default to English
+    const currentLanguage = localStorage.getItem('selectedLanguage') || 'en';
+    
+    // Make sure getText function is available
+    const getTextFn = window.getText || function(enText, frText) {
+      return currentLanguage === 'en' ? enText : frText;
+    };
+    
     this.events.forEach((event) => {
       const pos = this.getEventPosition(event);
       const isSelected =
@@ -290,10 +298,10 @@ class TimelineVisualization {
         this.ctx.fillStyle = isSelected ? "#fff" : "rgba(255, 255, 255, 0.9)";
 
         // Get the title in the current language
-        const title =
-          typeof event.title === "object"
-            ? getText(event.title.en, event.title.fr)
-            : event.title;
+        let title = event.title;
+        if (typeof event.title === "object") {
+          title = currentLanguage === 'en' ? event.title.en : event.title.fr;
+        }
 
         // Add background for better readability
         const textWidth = this.ctx.measureText(title).width;

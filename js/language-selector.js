@@ -5,10 +5,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const appContent = document.getElementById('app-content');
     const languageOptions = document.querySelectorAll('.language-option');
     
+    // Function to show language selection overlay
+    function showLanguageSelection() {
+        // Show language selection overlay
+        languageSelectionOverlay.style.display = 'flex';
+        appContent.style.display = 'none';
+    }
+    
     // Function to handle language selection
     function selectLanguage(language) {
+        // Get previous language
+        const previousLanguage = localStorage.getItem('selectedLanguage');
+        
         // Store selected language permanently
         localStorage.setItem('selectedLanguage', language);
+        
+        // Check if this is a language change after F5
+        const isF5Change = languageSelectionOverlay.style.display === 'flex' && previousLanguage && previousLanguage !== language;
         
         // Hide the language selection overlay
         languageSelectionOverlay.style.display = 'none';
@@ -16,13 +29,22 @@ document.addEventListener('DOMContentLoaded', () => {
         // Show the app content
         appContent.style.display = 'block';
         
+        // If this is a language change after F5, force a hard reload
+        if (isF5Change) {
+            // Add a parameter to the URL to force a complete reload
+            window.location.href = window.location.pathname + '?lang=' + language + '&t=' + new Date().getTime();
+            return;
+        }
+        
         // Set the language in the app
         if (window.setLanguage) {
             window.setLanguage(language);
         }
         
-        // Initialize the app
-        initializeApp();
+        // Initialize the app if it hasn't been initialized yet
+        if (!window.timeline) {
+            initializeApp();
+        }
     }
     
     // Add click event listeners to language options
@@ -31,6 +53,17 @@ document.addEventListener('DOMContentLoaded', () => {
             const language = option.getAttribute('data-language');
             selectLanguage(language);
         });
+    });
+    
+    // Listen for F5 key press to show language selection again
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'F5') {
+            // Prevent the default refresh behavior
+            event.preventDefault();
+            
+            // Show language selection overlay
+            showLanguageSelection();
+        }
     });
     
     // Check if user has previously selected a language
@@ -46,9 +79,11 @@ document.addEventListener('DOMContentLoaded', () => {
 function initializeApp() {
     // Initialize the timeline visualization
     const timeline = new TimelineVisualization('timeline-canvas');
+    window.timeline = timeline;
     
     // Initialize interactions handler
     const interactions = new TimelineInteractions(timeline);
+    window.timelineInteractions = interactions;
     
     // Load all events initially
     timeline.loadEvents(historicalEvents);
